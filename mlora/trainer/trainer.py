@@ -176,6 +176,10 @@ class Trainer:
                     adapter_name)
                 if self.multi_trainer_context_.is_save_step(adapter_name):
                     self.save_lora_model(adapter_name, f"{step_cnt}")
+                    #使每个epoch，都保存adapter参数。
+                for adapter_name in self.multi_trainer_context_.trainer_context_:
+                    self.multi_trainer_context_.finish(adapter_name)
+                    self.save_lora_model(adapter_name)
 
         # flush the grad
         for adapter_name in self.multi_trainer_context_.trainer_context_:
